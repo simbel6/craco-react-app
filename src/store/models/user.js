@@ -1,11 +1,11 @@
-import api from 'services'
+import api from 'services';
 
-const { queryUserList } = api
+const { queryUserList } = api;
 
 export default {
   state: {
     list: [],
-    pagination: {}
+    pagination: {},
   },
   reducers: {
     updateState(state, payload) {
@@ -20,9 +20,9 @@ export default {
       const params = {
         page: 1,
         size: 5,
-        ...payload
-      }
-      const data = await queryUserList(params)
+        ...payload,
+      };
+      const data = await queryUserList(params);
       if (data && data.success) {
         this.updateState({
           list: data?.data?.list,
@@ -30,9 +30,9 @@ export default {
             current: params.page,
             pageSize: params.size,
             total: data.data.total,
-            showTotal: total => `共 ${total} 条数据`,
-          }
-        })
+            showTotal: (total) => `共 ${total} 条数据`,
+          },
+        });
       }
     },
   },

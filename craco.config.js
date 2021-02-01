@@ -5,9 +5,10 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 const webpack = require('webpack');
 const path = require('path');
-const resolves = (file) => path.resolve(__dirname, file);
-const REACT_ENV = process.env.REACT_ENV;
 
+const resolves = (file) => path.resolve(__dirname, file);
+
+const {REACT_ENV} = process.env;
 const devMode = REACT_ENV === 'dev';
 
 module.exports = {
@@ -53,11 +54,11 @@ module.exports = {
     {
       plugin: CracoLessPlugin,
       options: {
-        modifyLessRule: function (lessRule, _context) {
-          lessRule.test = /\.(module)\.(less)$/;
-          lessRule.exclude = /node_modules/;
-          return lessRule;
-        },
+        modifyLessRule: (lessRule) => ({
+          ...lessRule,
+          test: /\.(module)\.(less)$/,
+          exclude: /node_modules/
+        }),
         cssLoaderOptions: {
           modules: true,
         },

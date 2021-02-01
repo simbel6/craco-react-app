@@ -1,11 +1,10 @@
-import React, { PureComponent } from 'react'
-import { Table, Button } from 'antd'
-import styles from './List.module.less'
+import React, { PureComponent } from 'react';
+import { Table, Button } from 'antd';
+import styles from './List.module.less';
 
 class List extends PureComponent {
-
   render() {
-    const { ...tableProps } = this.props
+    const { ...tableProps } = this.props;
 
     const columns = [
       {
@@ -24,28 +23,28 @@ class List extends PureComponent {
         title: 'CreateTime',
         dataIndex: 'create_time',
       },
-    ]
+    ];
 
     return (
       <>
         <div className={styles.bar}>
           <Button type='primary'>新建</Button>
-        </div> 
-      <Table
-        {...tableProps}
-        pagination={{
-          ...tableProps.pagination,
-        }}
-        className={styles.table}
-        bordered
-        scroll={{ x: 1200 }}
-        columns={columns}
-        simple
-        rowKey={record => record.id}
+        </div>
+        <Table
+          {...tableProps}
+          pagination={{
+            ...tableProps.pagination,
+          }}
+          className={styles.table}
+          bordered
+          scroll={{ x: 1200 }}
+          columns={columns}
+          simple
+          rowKey={(record) => record.id}
         />
-        </>
-    )
+      </>
+    );
   }
 }
 
-export default List
+export default List;

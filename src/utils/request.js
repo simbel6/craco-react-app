@@ -1,59 +1,59 @@
-import axios from 'axios'
+import axios from 'axios';
 // import { message } from 'antd'
-import { cloneDeep } from 'lodash'
-import { CANCEL_REQUEST_MESSAGE } from 'consts'
+import { cloneDeep } from 'lodash';
+import { CANCEL_REQUEST_MESSAGE } from 'consts';
 // const { parse, compile } = require("path-to-regexp")
 
-const { CancelToken } = axios
-window.cancelRequest = new Map()
+const { CancelToken } = axios;
+window.cancelRequest = new Map();
 
 export default function request(options) {
-  let { data, url } = options
-  const cloneData = cloneDeep(data) 
+  const { data, url } = options;
+  const cloneData = cloneDeep(data);
 
-// restful url处理 
-//   try {
-//     let domain = ''
-//     const urlMatch = url.match(/[a-zA-z]+:\/\/[^/]*/)
-//     if (urlMatch) {
-//       ;[domain] = urlMatch
-//       url = url.slice(domain.length)
-//     }
+  // restful url处理
+  //   try {
+  //     let domain = ''
+  //     const urlMatch = url.match(/[a-zA-z]+:\/\/[^/]*/)
+  //     if (urlMatch) {
+  //       ;[domain] = urlMatch
+  //       url = url.slice(domain.length)
+  //     }
 
-//     const match = parse(url)
-//     url = compile(url)(data)
+  //     const match = parse(url)
+  //     url = compile(url)(data)
 
-//     for (const item of match) {
-//       if (item instanceof Object && item.name in cloneData) {
-//         delete cloneData[item.name]
-//       }
-//     }
-//     url = domain + url
-//   } catch (e) {
-//     message.error(e.message)
-//   }
+  //     for (const item of match) {
+  //       if (item instanceof Object && item.name in cloneData) {
+  //         delete cloneData[item.name]
+  //       }
+  //     }
+  //     url = domain + url
+  //   } catch (e) {
+  //     message.error(e.message)
+  //   }
 
-  options.url = url
-  options.params = cloneData
-  options.cancelToken = new CancelToken(cancel => {
+  options.url = url;
+  options.params = cloneData;
+  options.cancelToken = new CancelToken((cancel) => {
     window.cancelRequest.set(Symbol(Date.now()), {
       pathname: window.location.pathname,
       cancel,
-    })
-  })
+    });
+  });
 
   return axios(options)
-    .then(response => {
-      const { statusText, status, data } = response
+    .then((response) => {
+      const { statusText, status, data } = response;
 
-      let result = {}
+      let result = {};
       if (typeof data === 'object') {
-        result = data
+        result = data;
         if (Array.isArray(data)) {
-          result.list = data
+          result.list = data;
         }
       } else {
-        result.data = data
+        result.data = data;
       }
 
       return Promise.resolve({
@@ -61,27 +61,27 @@ export default function request(options) {
         message: statusText,
         statusCode: status,
         ...result,
-      })
+      });
     })
-    .catch(error => {
-      const { response, message } = error
+    .catch((error) => {
+      const { response, message } = error;
 
       if (String(message) === CANCEL_REQUEST_MESSAGE) {
         return {
           success: false,
-        }
+        };
       }
 
-      let msg
-      let statusCode
+      let msg;
+      let statusCode;
 
       if (response && response instanceof Object) {
-        const { data, statusText } = response
-        statusCode = response.status
-        msg = data.message || statusText
+        const { data, statusText } = response;
+        statusCode = response.status;
+        msg = data.message || statusText;
       } else {
-        statusCode = 600
-        msg = error.message || 'Network Error'
+        statusCode = 600;
+        msg = error.message || 'Network Error';
       }
 
       /* eslint-disable */
@@ -89,6 +89,6 @@ export default function request(options) {
         success: false,
         statusCode,
         message: msg,
-      })
-    })
+      });
+    });
 }

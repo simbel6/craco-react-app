@@ -1,37 +1,32 @@
-import request from 'utils/request'
+import request from 'utils/request';
 
-const api = {}
-const files = require.context('./api', false, /\.js$/)
-files.keys().forEach(key => {
-  const child = files(key).default
-  Object.assign(api, child)
-})
+const api = {};
+const files = require.context('./api', false, /\.js$/);
+files.keys().forEach((key) => {
+  const child = files(key).default;
+  Object.assign(api, child);
+});
 
+const gen = (params) => {
+  let url = params;
+  let method = 'GET';
 
-const gen = params => {
-  let url = params
-  let method = 'GET'
-
-  const paramsArray = params.split(' ')
+  const paramsArray = params.split(' ');
   if (paramsArray.length === 2) {
-    method = paramsArray[0]
-    url = paramsArray[1]
+    [method, url] = paramsArray;
   }
 
-
-  return function(data) {
-    return request({
+  return (data) =>
+    request({
       url,
       data,
       method,
-    })
-  }
-}
+    });
+};
 
-const APIFunction = {}
-for (const key in api) {
-  APIFunction[key] = gen(api[key])
-}
+const APIFunction = {};
+Object.entries(api).forEach((item) => {
+  APIFunction[item[0]] = gen(item[1]);
+});
 
-
-export default APIFunction
+export default APIFunction;

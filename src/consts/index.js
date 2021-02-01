@@ -1,1 +1,1 @@
-export const CANCEL_REQUEST_MESSAGE = 'cancel request'
+export const CANCEL_REQUEST_MESSAGE = 'cancel request';
