@@ -8,7 +8,7 @@ const path = require('path');
 
 const resolves = (file) => path.resolve(__dirname, file);
 
-const {REACT_ENV} = process.env;
+const { REACT_ENV } = process.env;
 const devMode = REACT_ENV === 'dev';
 
 module.exports = {
@@ -57,7 +57,7 @@ module.exports = {
         modifyLessRule: (lessRule) => ({
           ...lessRule,
           test: /\.(module)\.(less)$/,
-          exclude: /node_modules/
+          exclude: /node_modules/,
         }),
         cssLoaderOptions: {
           modules: true,
