@@ -1,33 +1,33 @@
-const { ESLINT_MODES, when } = require("@craco/craco");
-const CracoAntDesignPlugin = require("craco-antd");
-const CracoLessPlugin = require("craco-less");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const WebpackBar = require("webpackbar");
-const webpack = require("webpack");
-const path = require("path");
+const { ESLINT_MODES, when } = require('@craco/craco');
+const CracoAntDesignPlugin = require('craco-antd');
+const CracoLessPlugin = require('craco-less');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const WebpackBar = require('webpackbar');
+const webpack = require('webpack');
+const path = require('path');
 const resolves = (file) => path.resolve(__dirname, file);
 const REACT_ENV = process.env.REACT_ENV;
 
-const devMode = REACT_ENV === "dev";
+const devMode = REACT_ENV === 'dev';
 
 module.exports = {
   webpack: {
     alias: {
-      consts: resolves("./src/consts"),
-      store: resolves("./src/store"),
-      utils: resolves("./src/utils"),
-      services: resolves("./src/services"),
-      views: resolves("./src/views"),
+      consts: resolves('./src/consts'),
+      store: resolves('./src/store'),
+      utils: resolves('./src/utils'),
+      services: resolves('./src/services'),
+      views: resolves('./src/views'),
     },
     plugins: [
       new webpack.DefinePlugin({
-        "process.env.REACT_ENV": JSON.stringify(REACT_ENV),
+        'process.env.REACT_ENV': JSON.stringify(REACT_ENV),
       }),
-      new WebpackBar({ profile: true, name: "craco" }),
+      new WebpackBar({ profile: true, name: 'craco' }),
       ...when(
         devMode,
         () => [new BundleAnalyzerPlugin({ openAnalyzer: false })],
-        []
+        [],
       ),
     ],
   },
