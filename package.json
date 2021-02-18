@@ -28,7 +28,8 @@
     "build:test": "cross-env REACT_ENV=test craco build",
     "build:pre": "cross-env REACT_ENV=pre craco build",
     "build:prod": "cross-env REACT_ENV=prod craco build",
-    "test": "craco test"
+    "test": "craco test",
+    "checkIsMerge": "node bin/checkIsMerge.js"
   },
   "browserslist": {
     "production": [
@@ -67,7 +68,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx}": [
-      "eslint --fix",
+      "eslint --fix --cache",
       "pretty-quick --staged"
     ]
   }
